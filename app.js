@@ -30,6 +30,8 @@ app.use('/static', express.static("static"))
 // });
 
 
+
+
 //first page
 app.get('/message', (req, res) => {
 	res.render ('message')
@@ -41,14 +43,15 @@ app.post('/message', (req, res) => {
 			title: req.body.title,
 			text: req.body.text
 		}
+	console.log(allMessages)
 	pg.connect(connectString, function (err, client, done) {
 		if (err){ 
 			throw err;
 		}
 		client.query(`insert into messages 
-        (title, body) 
+        (title, text) 
         values 
-        ('${allMessages.title}', '${allMessages.text}')`, function(err, result){
+        (${allMessages.title}, ${allMessages.text})`, function(err, result){
 			console.log(result)
 
 		
